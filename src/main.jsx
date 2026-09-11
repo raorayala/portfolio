@@ -1,12 +1,10 @@
-import React, { StrictMode, useEffect, useState } from 'react'
+import React, { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   ArrowUpRight,
   Check,
-  ChevronDown,
   Code2,
   Database,
-  Download,
   Github,
   Globe2,
   Linkedin,
@@ -16,7 +14,6 @@ import {
   MoveUpRight,
   Server,
   ShieldCheck,
-  Sparkles,
   Terminal,
   X,
   Zap,
@@ -72,11 +69,44 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [selectedProject, setSelectedProject] = useState(null)
   const [submitted, setSubmitted] = useState(false)
+  const modalRef = useRef(null)
+  const previousFocusRef = useRef(null)
 
   useEffect(() => {
     document.body.style.overflow = selectedProject ? 'hidden' : ''
+    if (selectedProject) {
+      previousFocusRef.current = document.activeElement
+      requestAnimationFrame(() => modalRef.current?.focus())
+    } else {
+      previousFocusRef.current?.focus?.()
+    }
     return () => { document.body.style.overflow = '' }
   }, [selectedProject])
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        setSelectedProject(null)
+      }
+
+      if (event.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll('button, a, input, textarea, select, [tabindex]:not([tabindex="-1"])')
+        if (!focusable.length) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault()
+          last.focus()
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault()
+          first.focus()
+        }
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -92,24 +122,25 @@ function App() {
   return (
     <div className="site-shell">
       <div className="noise" />
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="site-header">
-        <a className="brand" href="#top" onClick={() => scrollTo('top')}>
+        <a className="brand" href="#main-content" onClick={() => scrollTo('main-content')}>
           <span className="brand-mark">MR</span>
           <span>Murali<span className="brand-dot">.</span></span>
         </a>
-        <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'}>
+        <nav id="primary-navigation" className={menuOpen ? 'main-nav is-open' : 'main-nav'}>
           <button onClick={() => scrollTo('expertise')}>Expertise</button>
           <button onClick={() => scrollTo('projects')}>Projects</button>
           <button onClick={() => scrollTo('experience')}>Experience</button>
           <button onClick={() => scrollTo('contact')}>Contact</button>
         </nav>
         <button className="header-cta" onClick={() => scrollTo('contact')}>Let's talk <ArrowUpRight size={16} /></button>
-        <button className="menu-toggle" aria-label="Toggle navigation" onClick={() => setMenuOpen(!menuOpen)}>
+        <button className="menu-toggle" aria-label="Toggle navigation" aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </header>
 
-      <main id="top">
+      <main id="main-content">
         <section className="hero section-wrap">
           <div className="hero-copy">
             <div className="eyebrow"><span className="status-dot" /> Available for select engagements <span className="eyebrow-line" /></div>
@@ -155,7 +186,7 @@ function App() {
 
         <section id="projects" className="section-wrap content-section projects-section">
           <div className="section-heading"><div><span className="section-kicker">02 / SELECTED WORK</span><h2>Built for the<br /><em>real world.</em></h2></div><p>Products and platforms where thoughtful architecture meets the pace of real teams, users, and constraints.</p></div>
-          <div className="projects-grid">{projects.map(project => { const Icon = project.icon; return <article className={`project-card ${project.accent}`} key={project.title} onClick={() => setSelectedProject(project)}><div className="project-top"><span className="project-number">{project.number}</span><span className="project-arrow"><ArrowUpRight size={18} /></span></div><div className="project-illustration"><Icon size={38} strokeWidth={1.4} /><div className="illustration-lines" /></div><h3>{project.title}</h3><p>{project.description}</p><div className="project-tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div><button className="learn-more">Explore case study <ArrowUpRight size={14} /></button></article> })}</div>
+          <div className="projects-grid">{projects.map(project => { const Icon = project.icon; const openProject = () => { previousFocusRef.current = document.activeElement; setSelectedProject(project) }; return <article className={`project-card ${project.accent}`} key={project.title} role="button" tabIndex="0" aria-label={`Open case study: ${project.title}`} onClick={openProject} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openProject() } }}><div className="project-top"><span className="project-number">{project.number}</span><span className="project-arrow" aria-hidden="true"><ArrowUpRight size={18} /></span></div><div className="project-illustration" aria-hidden="true"><Icon size={38} strokeWidth={1.4} /><div className="illustration-lines" /></div><h3>{project.title}</h3><p>{project.description}</p><div className="project-tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div><span className="learn-more">Explore case study <ArrowUpRight size={14} aria-hidden="true" /></span></article> })}</div>
         </section>
 
         <section id="experience" className="section-wrap content-section experience-section">
@@ -165,15 +196,15 @@ function App() {
 
         <section id="contact" className="contact-section">
           <div className="section-wrap contact-inner">
-            <div className="contact-copy"><span className="section-kicker">04 / CONTACT</span><h2>Have a hard problem<br />worth <em>solving?</em></h2><p>Tell me a little about what you're building. I’ll get back to you within 2–3 business days.</p><div className="contact-links"><a href="mailto:hello@murali.dev"><Mail size={17} /> hello@murali.dev</a><a href="https://www.linkedin.com" target="_blank" rel="noreferrer"><Linkedin size={17} /> LinkedIn</a><a href="https://github.com" target="_blank" rel="noreferrer"><Github size={17} /> GitHub</a></div></div>
-            <form className="contact-form" onSubmit={handleSubmit}><label>Name<input required name="name" placeholder="Your name" /></label><label>Email<input required type="email" name="email" placeholder="you@company.com" /></label><label>Message<textarea required name="message" rows="4" placeholder="What are you working on?" /></label><button className="button button-primary" type="submit">{submitted ? <>Message queued <Check size={17} /></> : <>Send message <ArrowUpRight size={17} /></>}</button>{submitted && <span className="form-success">Thanks — your message is ready to send.</span>}</form>
+            <div className="contact-copy"><span className="section-kicker">04 / CONTACT</span><h2>Have a hard problem<br />worth <em>solving?</em></h2><p>Tell me a little about what you're building. I’ll get back to you within 2–3 business days.</p><div className="contact-links"><a href="mailto:hello@murali.dev"><Mail size={17} aria-hidden="true" /> hello@murali.dev</a><a href="https://www.linkedin.com" target="_blank" rel="noreferrer"><Linkedin size={17} aria-hidden="true" /> LinkedIn</a><a href="https://github.com" target="_blank" rel="noreferrer"><Github size={17} aria-hidden="true" /> GitHub</a></div></div>
+            <form className="contact-form" onSubmit={handleSubmit}><label htmlFor="contact-name">Name<input id="contact-name" required autoComplete="name" name="name" placeholder="Your name…" /></label><label htmlFor="contact-email">Email<input id="contact-email" required autoComplete="email" type="email" name="email" placeholder="you@company.com…" spellCheck="false" /></label><label htmlFor="contact-message">Message<textarea id="contact-message" required name="message" rows="4" placeholder="What are you working on?…" /></label><button className="button button-primary" type="submit">{submitted ? <>Message queued <Check size={17} aria-hidden="true" /></> : <>Send message <ArrowUpRight size={17} aria-hidden="true" /></>}</button>{submitted && <span className="form-success" role="status" aria-live="polite">Thanks — your message is ready to send.</span>}</form>
           </div>
         </section>
       </main>
 
-      <footer className="site-footer section-wrap"><a className="brand" href="#top"><span className="brand-mark">MR</span><span>Murali<span className="brand-dot">.</span></span></a><span>© 2026 Murali Rayala</span><span className="footer-note"><Terminal size={14} /> Built with intention</span></footer>
+      <footer className="site-footer section-wrap"><a className="brand" href="#main-content"><span className="brand-mark">MR</span><span>Murali<span className="brand-dot">.</span></span></a><span>© 2026 Murali Rayala</span><span className="footer-note"><Terminal size={14} aria-hidden="true" /> Built with intention</span></footer>
 
-      {selectedProject && <div className="modal-backdrop" onClick={() => setSelectedProject(null)}><div className={`project-modal ${selectedProject.accent}`} onClick={event => event.stopPropagation()}><button className="modal-close" aria-label="Close project details" onClick={() => setSelectedProject(null)}><X size={20} /></button><span className="section-kicker">CASE STUDY / {selectedProject.number}</span><h2>{selectedProject.title}</h2><p>{selectedProject.detail}</p><div className="modal-tags">{selectedProject.tags.map(tag => <span key={tag}>{tag}</span>)}</div><button className="button button-primary" onClick={() => setSelectedProject(null)}>Back to projects <ArrowUpRight size={16} /></button></div></div>}
+      {selectedProject && <div className="modal-backdrop" onClick={() => setSelectedProject(null)}><div className={`project-modal ${selectedProject.accent}`} ref={modalRef} role="dialog" aria-modal="true" aria-labelledby="project-dialog-title" tabIndex="-1" onClick={event => event.stopPropagation()}><button className="modal-close" aria-label="Close project details" onClick={() => setSelectedProject(null)}><X size={20} aria-hidden="true" /></button><span className="section-kicker">CASE STUDY / {selectedProject.number}</span><h2 id="project-dialog-title">{selectedProject.title}</h2><p>{selectedProject.detail}</p><div className="modal-tags">{selectedProject.tags.map(tag => <span key={tag}>{tag}</span>)}</div><button className="button button-primary" onClick={() => setSelectedProject(null)}>Back to projects <ArrowUpRight size={16} aria-hidden="true" /></button></div></div>}
     </div>
   )
 }
