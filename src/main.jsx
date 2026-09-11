@@ -5,6 +5,7 @@ import {
   Check,
   Code2,
   Database,
+  Download,
   Github,
   Globe2,
   Linkedin,
@@ -32,7 +33,7 @@ const projects = [
     number: '01',
     title: 'Gated Community Operations',
     description: 'A role-aware operating system for admins, guards, and residents — designed to keep real-world communities moving.',
-    detail: 'Multi-role access control, documented APIs, Selenium UI coverage, and a local LLM assistant that turns maintenance history into useful next steps.',
+    detail: 'Built identity, visitor, maintenance, RBAC, seeded demo data, documented APIs, Selenium UI coverage, and an optional local LLM assistant for maintenance advice.',
     tags: ['RBAC', 'Selenium', 'REST APIs'],
     accent: 'blue',
     icon: ShieldCheck,
@@ -41,7 +42,7 @@ const projects = [
     number: '02',
     title: 'ML-IMS',
     description: 'Modern inventory management for microbiology labs, from sample intake to auditable stock movements.',
-    detail: 'A full-stack platform built with Next.js, Express/TypeScript, Prisma and SQLite/PostgreSQL, containerized with Docker and shipped through GitHub Actions.',
+    detail: 'Built check-in/out workflows, dashboards, and RBAC with Next.js, Express/TypeScript, Prisma, SQLite/PostgreSQL, Docker, Vitest, and GitHub Actions.',
     tags: ['Next.js', 'Prisma', 'Docker'],
     accent: 'cyan',
     icon: Database,
@@ -50,7 +51,7 @@ const projects = [
     number: '03',
     title: 'Campaign Ops Platform',
     description: 'End-to-end GOTV and fundraising operations with the guardrails teams need to move quickly.',
-    detail: 'JWT authentication, granular RBAC, seeded organization data, and a complete SDLC pipeline setup make the platform ready for repeatable delivery.',
+    detail: 'Designed fundraising and GOTV APIs with JWT authentication, granular RBAC, seeded organization data, and an end-to-end SDLC pipeline spanning QA, deployment, and SEO.',
     tags: ['TypeScript', 'JWT', 'CI/CD'],
     accent: 'violet',
     icon: Globe2,
@@ -58,11 +59,13 @@ const projects = [
 ]
 
 const timeline = [
-  { date: 'Mar 2026 — Present', role: 'Independent Product Engineer / Freelance', company: 'AI-assisted product studio', text: 'Building focused MVP software products while directing architecture, security, and full SDLC workflows.', current: true },
-  { date: 'Jul 2023 — Jun 2025', role: 'Backend Engineer · Contract', company: 'Bank of America', text: 'Architected scalable REST APIs and OAuth2 Spring Security integration across payment and merchant platforms.' },
-  { date: 'May 2022 — Jun 2023', role: 'Java Software Engineer · Contract', company: 'Visa', text: 'Built tokenization services for 15M monthly transactions; cut bug resolution time by 25% and boosted CI/CD deployment speed by 50%.' },
-  { date: 'Dec 2019 — Feb 2022', role: 'Software Engineer · Contract', company: 'Federal Reserve Bank of SF', text: 'Shipped CashADS with 99.8% identity verification success, 30% faster response times, and 85% test coverage.' },
-  { date: 'Jul 2018 — Nov 2019', role: 'Software Engineer · Contract', company: 'Apple', text: 'Built AppleCare Connect systems that drove a 15% increase in warranty sales and optimized large-scale data processing by 25%.' },
+  { date: 'Jun 2026 — Present', role: 'Independent Product Engineer', company: 'Personal product development · Remote', text: 'Building AI-assisted MVP products while directing architecture, security, testing, product decisions, and end-to-end SDLC workflows.', current: true },
+  { date: 'Jul 2023 — Jun 2025', role: 'Backend Engineer', company: 'Bank of America', text: 'Architected scalable REST APIs for mobile, web, payment, and merchant platforms, strengthening authentication with OAuth2 and Spring Security.' },
+  { date: 'May 2022 — Jun 2023', role: 'Java Backend Engineer', company: 'Visa', text: 'Optimized Visa Tokenization Service processing 15M+ monthly transactions; cut bug-resolution time by 25% and deployment cycles by 50%.' },
+  { date: 'Dec 2019 — Feb 2022', role: 'Java Software Engineer', company: 'Federal Reserve Bank', text: 'Delivered 99.8% identity verification success, 40% fewer security vulnerabilities, 30% faster APIs, and 85% automated test coverage.' },
+  { date: 'Jul 2018 — Nov 2019', role: 'Java Software Engineer', company: 'Apple', text: 'Improved AppleCare Connect warranty sales by 15%, data-processing performance by 25%, and re-architected services for 5,000 concurrent transactions.' },
+  { date: 'Sep 2016 — Jun 2018', role: 'Java Software Engineer', company: 'U.S. Bank', text: 'Built metadata-driven UI generation, REST APIs, KYC workflows, and Drools-based business rules for dynamic compliance configurations.' },
+  { date: 'Oct 2009 — Jul 2016', role: 'Application Analyst', company: 'Symantec Corporation (HPE)', text: 'Supported e-commerce systems processing 50,000+ daily transactions, improved JMS reliability by 98%, and resolved 98% of audit issues.' },
 ]
 
 function App() {
@@ -147,8 +150,9 @@ function App() {
             <h1>Senior Backend<br /><span className="gradient-text">& Platform Engineer</span></h1>
             <p className="hero-lede">Building high-reliability enterprise platforms, distributed microservices, and AI-assisted products.</p>
             <div className="hero-actions">
-              <button className="button button-primary" onClick={() => scrollTo('contact')}>Contact me <ArrowUpRight size={17} /></button>
+              <button className="button button-primary" onClick={() => scrollTo('contact')}>Discuss your platform <ArrowUpRight size={17} /></button>
               <button className="button button-ghost" onClick={() => scrollTo('projects')}>View projects <MoveUpRight size={17} /></button>
+              <a className="button button-ghost" href="/Murali_Rayala_Senior_Java_Backend_Engineer_ResumeAI.docx" download>Download resume <Download size={16} /></a>
             </div>
             <div className="hero-meta"><MapPin size={15} /> San Francisco Bay Area / Burlingame, CA <span>•</span> 15+ years in the craft</div>
           </div>
@@ -196,7 +200,7 @@ function App() {
 
         <section id="contact" className="contact-section">
           <div className="section-wrap contact-inner">
-            <div className="contact-copy"><span className="section-kicker">04 / CONTACT</span><h2>Have a hard problem<br />worth <em>solving?</em></h2><p>Tell me a little about what you're building. I’ll get back to you within 2–3 business days.</p><div className="contact-links"><a href="mailto:hello@murali.dev"><Mail size={17} aria-hidden="true" /> hello@murali.dev</a><a href="https://www.linkedin.com" target="_blank" rel="noreferrer"><Linkedin size={17} aria-hidden="true" /> LinkedIn</a><a href="https://github.com" target="_blank" rel="noreferrer"><Github size={17} aria-hidden="true" /> GitHub</a></div></div>
+            <div className="contact-copy"><span className="section-kicker">04 / CONTACT</span><h2>Have a hard problem<br />worth <em>solving?</em></h2><p>Tell me a little about what you're building. I’ll get back to you within 2–3 business days.</p><div className="contact-links"><a href="mailto:murali.rayala@gmail.com"><Mail size={17} aria-hidden="true" /> murali.rayala@gmail.com</a><a href="https://www.linkedin.com/in/murali-rayala" target="_blank" rel="noreferrer"><Linkedin size={17} aria-hidden="true" /> LinkedIn</a><a href="https://github.com/raorayala" target="_blank" rel="noreferrer"><Github size={17} aria-hidden="true" /> GitHub</a></div></div>
             <form className="contact-form" onSubmit={handleSubmit}><label htmlFor="contact-name">Name<input id="contact-name" required autoComplete="name" name="name" placeholder="Your name…" /></label><label htmlFor="contact-email">Email<input id="contact-email" required autoComplete="email" type="email" name="email" placeholder="you@company.com…" spellCheck="false" /></label><label htmlFor="contact-message">Message<textarea id="contact-message" required name="message" rows="4" placeholder="What are you working on?…" /></label><button className="button button-primary" type="submit">{submitted ? <>Message queued <Check size={17} aria-hidden="true" /></> : <>Send message <ArrowUpRight size={17} aria-hidden="true" /></>}</button>{submitted && <span className="form-success" role="status" aria-live="polite">Thanks — your message is ready to send.</span>}</form>
           </div>
         </section>
