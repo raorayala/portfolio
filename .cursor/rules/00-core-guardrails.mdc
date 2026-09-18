@@ -1,0 +1,24 @@
+---
+description: Stack, Git, PowerShell, content accuracy; pointers to numbered rules
+alwaysApply: true
+---
+
+# Core guardrails
+
+## Stack
+- Static portfolio: React 18 + Vite 6. App lives in `src/main.jsx` and `src/styles.css`.
+- Host: Cloudflare Pages. Build `npm run build`, output `dist`. Vite `base` is `/`.
+- Contact: Formspree via `import.meta.env.VITE_FORMSPREE_ID`. Do not invent a backend.
+- Canonical deploy notes: `README.md`.
+
+## Local agent
+- Do not start `npm run dev` or `npm run preview` unless explicitly asked. Stop leftover preview/dev processes when asked.
+- PowerShell: do not use `&&`; use `;` or separate commands.
+- Make minimal, task-focused diffs. No drive-by refactors or TypeScript migrations unless asked.
+- Do not commit, push, force-push, or amend unless explicitly asked. Never force-push `main` unless the user requests it (warn if they do).
+
+## Content
+- Do not invent jobs, metrics, or projects. Keep copy aligned with existing timeline, skills, and resume HTML in `public/`.
+
+## Details (do not weaken)
+- UI/a11y → `10-ui-react`. Deploy/env → `20-deploy`. Workflow → `60-efficient-agent-workflow`.

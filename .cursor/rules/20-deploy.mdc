@@ -1,0 +1,13 @@
+---
+description: Vite, Cloudflare Pages, Formspree env, and gitignore for secrets
+globs: "{README.md,wrangler.toml,vite.config.js,.env.example,.gitignore}"
+alwaysApply: false
+---
+
+# Deploy
+
+- `vite.config.js` must use `@vitejs/plugin-react` and `base: '/'` (Cloudflare root URL, not GitHub Pages subpath).
+- Pages settings: build `npm run build`, output `dist`, Node 20+. `wrangler.toml` `pages_build_output_dir` is `dist`.
+- Formspree id: `.env.example` documents `VITE_FORMSPREE_ID`. Never commit `.env` or `.env.local`. Set the same var in Cloudflare Pages environment, then redeploy.
+- Do not commit `node_modules/` or `dist/`.
+- Do not add a custom domain or GitHub Pages `base` unless asked.

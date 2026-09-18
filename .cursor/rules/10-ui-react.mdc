@@ -1,0 +1,14 @@
+---
+description: React UI, accessibility, contact form, and resume link
+globs: "**/*.{jsx,css,html}"
+alwaysApply: false
+---
+
+# UI and React
+
+- Prefer the existing single-page structure in `src/main.jsx`. Split components only when asked.
+- Keep skip link, project modal focus trap + Escape, `aria-*` on nav/dialog, and `prefers-reduced-motion` in `src/styles.css`.
+- Mobile: hamburger + `.main-nav.is-open`. Do not break the header CTA / menu-toggle breakpoints.
+- Contact form must POST to `https://formspree.io/f/${VITE_FORMSPREE_ID}` with success, error, and missing-id states. Do not fake a successful send.
+- Resume download href must match a real file under `public/` (currently `Murali_Rayala_Senior_Java_Backend_Engineer_Resume.html`).
+- After UI changes, verify in the browser (home, modal, mobile nav, resume URL, form states) when tools allow.

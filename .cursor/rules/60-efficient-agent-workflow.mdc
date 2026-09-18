@@ -1,0 +1,14 @@
+---
+description: Apply for implementation tasks; inspect related files only, short reports
+alwaysApply: false
+---
+
+# Efficient agent workflow
+
+- Inspect only files related to the task. Do not scan the full repository unless asked.
+- For non-trivial work, inspect first and give a concise plan before editing. Implement only approved scope.
+- One small step at a time. Prefer exact paths and existing patterns in `src/main.jsx` / `src/styles.css`.
+- Prefer `npm run build` over starting a long-running preview. Do not leave `vite` / `preview` running in the background unless the user asked for a server.
+- Do not dump full npm logs; show failing lines only.
+- Report changed files, what was verified, and limitations.
+- After two failed implementation attempts, stop editing and hand off: goal, files inspected, attempted changes, current failure, next investigation.
