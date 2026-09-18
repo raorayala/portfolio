@@ -71,7 +71,8 @@ const timeline = [
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [selectedProject, setSelectedProject] = useState(null)
-  const [submitted, setSubmitted] = useState(false)
+  const [formStatus, setFormStatus] = useState('idle')
+  const formspreeId = import.meta.env.VITE_FORMSPREE_ID
   const modalRef = useRef(null)
   const previousFocusRef = useRef(null)
 
@@ -116,10 +117,31 @@ function App() {
     setMenuOpen(false)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    setSubmitted(true)
-    event.currentTarget.reset()
+    const form = event.currentTarget
+
+    if (!formspreeId) {
+      setFormStatus('missing')
+      return
+    }
+
+    setFormStatus('sending')
+    try {
+      const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      })
+      if (!response.ok) {
+        setFormStatus('error')
+        return
+      }
+      form.reset()
+      setFormStatus('success')
+    } catch {
+      setFormStatus('error')
+    }
   }
 
   return (
@@ -152,7 +174,7 @@ function App() {
             <div className="hero-actions">
               <button className="button button-primary" onClick={() => scrollTo('contact')}>Discuss your platform <ArrowUpRight size={17} /></button>
               <button className="button button-ghost" onClick={() => scrollTo('projects')}>View projects <MoveUpRight size={17} /></button>
-              <a className="button button-ghost" href="/Murali_Rayala_Senior_Java_Backend_Engineer_ResumeAI.docx" download>Download resume <Download size={16} /></a>
+              <a className="button button-ghost" href="/Murali_Rayala_Senior_Java_Backend_Engineer_Resume.html" download>Download resume <Download size={16} /></a>
             </div>
             <div className="hero-meta"><MapPin size={15} /> San Francisco Bay Area / Burlingame, CA <span>•</span> 15+ years in the craft</div>
           </div>
@@ -201,7 +223,18 @@ function App() {
         <section id="contact" className="contact-section">
           <div className="section-wrap contact-inner">
             <div className="contact-copy"><span className="section-kicker">04 / CONTACT</span><h2>Have a hard problem<br />worth <em>solving?</em></h2><p>Tell me a little about what you're building. I’ll get back to you within 2–3 business days.</p><div className="contact-links"><a href="mailto:murali.rayala@gmail.com"><Mail size={17} aria-hidden="true" /> murali.rayala@gmail.com</a><a href="https://www.linkedin.com/in/murali-rayala" target="_blank" rel="noreferrer"><Linkedin size={17} aria-hidden="true" /> LinkedIn</a><a href="https://github.com/raorayala" target="_blank" rel="noreferrer"><Github size={17} aria-hidden="true" /> GitHub</a></div></div>
-            <form className="contact-form" onSubmit={handleSubmit}><label htmlFor="contact-name">Name<input id="contact-name" required autoComplete="name" name="name" placeholder="Your name…" /></label><label htmlFor="contact-email">Email<input id="contact-email" required autoComplete="email" type="email" name="email" placeholder="you@company.com…" spellCheck="false" /></label><label htmlFor="contact-message">Message<textarea id="contact-message" required name="message" rows="4" placeholder="What are you working on?…" /></label><button className="button button-primary" type="submit">{submitted ? <>Message queued <Check size={17} aria-hidden="true" /></> : <>Send message <ArrowUpRight size={17} aria-hidden="true" /></>}</button>{submitted && <span className="form-success" role="status" aria-live="polite">Thanks — your message is ready to send.</span>}</form>
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <label htmlFor="contact-name">Name<input id="contact-name" required autoComplete="name" name="name" placeholder="Your name…" /></label>
+              <label htmlFor="contact-email">Email<input id="contact-email" required autoComplete="email" type="email" name="email" placeholder="you@company.com…" spellCheck="false" /></label>
+              <label htmlFor="contact-message">Message<textarea id="contact-message" required name="message" rows="4" placeholder="What are you working on?…" /></label>
+              <input type="hidden" name="_subject" value="Portfolio contact" />
+              <button className="button button-primary" type="submit" disabled={formStatus === 'sending'}>
+                {formStatus === 'success' ? <>Message sent <Check size={17} aria-hidden="true" /></> : formStatus === 'sending' ? <>Sending…</> : <>Send message <ArrowUpRight size={17} aria-hidden="true" /></>}
+              </button>
+              {formStatus === 'success' && <span className="form-success" role="status" aria-live="polite">Thanks — I’ll get back to you within 2–3 business days.</span>}
+              {formStatus === 'error' && <span className="form-error" role="status" aria-live="polite">Something went wrong. Email murali.rayala@gmail.com instead.</span>}
+              {formStatus === 'missing' && <span className="form-error" role="status" aria-live="polite">Contact form is not configured yet. Use the email link for now.</span>}
+            </form>
           </div>
         </section>
       </main>
