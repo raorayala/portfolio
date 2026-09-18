@@ -174,7 +174,7 @@ function App() {
             <div className="hero-actions">
               <button className="button button-primary" onClick={() => scrollTo('contact')}>Discuss your platform <ArrowUpRight size={17} /></button>
               <button className="button button-ghost" onClick={() => scrollTo('projects')}>View projects <MoveUpRight size={17} /></button>
-              <a className="button button-ghost" href="/Murali_Rayala_Sr_Java_Backend_Engineer.html" download>Download resume <Download size={16} /></a>
+              <a className="button button-ghost" href="/Murali_Rayala_Sr_Java_Backend_Engineer.pdf" download>Download resume <Download size={16} /></a>
             </div>
             <div className="hero-meta"><MapPin size={15} /> San Francisco Bay Area / Burlingame, CA <span>•</span> 15+ years in the craft</div>
           </div>
