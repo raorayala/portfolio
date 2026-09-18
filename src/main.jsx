@@ -32,8 +32,8 @@ const projects = [
   {
     number: '01',
     title: 'Gated Community Operations',
-    description: 'A role-aware operating system for admins, guards, and residents — designed to keep real-world communities moving.',
-    detail: 'Built identity, visitor, maintenance, RBAC, seeded demo data, documented APIs, Selenium UI coverage, and an optional local LLM assistant for maintenance advice.',
+    description: 'Community operations for admins, guards, and residents — identity, visitors, and maintenance in one role-aware system.',
+    detail: 'Owned identity, visitor, and maintenance flows with RBAC, seeded demo data, documented APIs, and Selenium UI coverage. An optional local LLM assistant can suggest maintenance advice; it is not the core product.',
     tags: ['RBAC', 'Selenium', 'REST APIs'],
     accent: 'blue',
     icon: ShieldCheck,
@@ -41,7 +41,7 @@ const projects = [
   {
     number: '02',
     title: 'ML-IMS',
-    description: 'Modern inventory management for microbiology labs, from sample intake to auditable stock movements.',
+    description: 'Microbiology lab inventory: sample intake through auditable stock movements for lab teams.',
     detail: 'Built check-in/out workflows, dashboards, and RBAC with Next.js, Express/TypeScript, Prisma, SQLite/PostgreSQL, Docker, Vitest, and GitHub Actions.',
     tags: ['Next.js', 'Prisma', 'Docker'],
     accent: 'cyan',
@@ -50,8 +50,8 @@ const projects = [
   {
     number: '03',
     title: 'Campaign Ops Platform',
-    description: 'End-to-end GOTV and fundraising operations with the guardrails teams need to move quickly.',
-    detail: 'Designed fundraising and GOTV APIs with JWT authentication, granular RBAC, seeded organization data, and an end-to-end SDLC pipeline spanning QA, deployment, and SEO.',
+    description: 'GOTV and fundraising operations platform with APIs and access control so teams can move quickly.',
+    detail: 'Designed fundraising and GOTV APIs with JWT authentication, granular RBAC, seeded organization data, and an end-to-end SDLC pipeline spanning QA and deployment.',
     tags: ['TypeScript', 'JWT', 'CI/CD'],
     accent: 'violet',
     icon: Globe2,
@@ -169,12 +169,12 @@ function App() {
         <section className="hero section-wrap">
           <div className="hero-copy">
             <div className="eyebrow"><span className="status-dot" /> Available for select engagements <span className="eyebrow-line" /></div>
-            <h1>Senior Backend<br /><span className="gradient-text">& Platform Engineer</span></h1>
+            <h1>Sr Java Backend<br /><span className="gradient-text">Engineer</span></h1>
             <p className="hero-lede">Building high-reliability enterprise platforms, distributed microservices, and AI-assisted products.</p>
             <div className="hero-actions">
               <button className="button button-primary" onClick={() => scrollTo('contact')}>Discuss your platform <ArrowUpRight size={17} /></button>
               <button className="button button-ghost" onClick={() => scrollTo('projects')}>View projects <MoveUpRight size={17} /></button>
-              <a className="button button-ghost" href="/Murali_Rayala_Senior_Java_Backend_Engineer_Resume.html" download>Download resume <Download size={16} /></a>
+              <a className="button button-ghost" href="/Murali_Rayala_Sr_Java_Backend_Engineer.html" download>Download resume <Download size={16} /></a>
             </div>
             <div className="hero-meta"><MapPin size={15} /> San Francisco Bay Area / Burlingame, CA <span>•</span> 15+ years in the craft</div>
           </div>

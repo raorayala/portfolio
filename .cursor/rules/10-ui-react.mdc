@@ -10,5 +10,5 @@ alwaysApply: false
 - Keep skip link, project modal focus trap + Escape, `aria-*` on nav/dialog, and `prefers-reduced-motion` in `src/styles.css`.
 - Mobile: hamburger + `.main-nav.is-open`. Do not break the header CTA / menu-toggle breakpoints.
 - Contact form must POST to `https://formspree.io/f/${VITE_FORMSPREE_ID}` with success, error, and missing-id states. Do not fake a successful send.
-- Resume download href must match a real file under `public/` (currently `Murali_Rayala_Senior_Java_Backend_Engineer_Resume.html`).
+- Resume download href must match a real file under `public/` (currently `Murali_Rayala_Sr_Java_Backend_Engineer.html`).
 - After UI changes, verify in the browser (home, modal, mobile nav, resume URL, form states) when tools allow.
